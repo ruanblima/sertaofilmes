@@ -1,25 +1,28 @@
-import { createAppContainer } from 'react-navigation';
-import { createStackNavigator } from 'react-navigation-stack';
-
+import { createStackNavigator } from '@react-navigation/stack';
+import React from 'react';
+const Stack = createStackNavigator();
 import Main from './pages/Main';
-import User from './pages/User';
+import Search from './pages/Search';
 
-const Routes = createAppContainer(
-  createStackNavigator(
-    {
-      Main,
-      User,
-    },
-    {
-      headerLayoutPreset: 'center',
-      defaultNavigationOptions: {
-        headerStyle: {
-          backgroundColor: '#8b0000',
-        },
+export default function Routes() {
+  return (
+    <Stack.Navigator
+      screenOptions={{
+        headerStyle: { backgroundColor: '#8b0000' },
         headerTintColor: '#FFF',
-      },
-    }
-  )
-);
-
-export default Routes;
+        headerShown: false,
+      }}
+    >
+      <Stack.Screen
+        name="Main"
+        component={Main}
+        options={{ title: 'Sertão Filmes' }}
+      />
+      <Stack.Screen
+        name="Search"
+        component={Search}
+        options={{ title: 'Sertão Filmes' }}
+      />
+    </Stack.Navigator>
+  );
+}

@@ -3,38 +3,25 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import request from '../../services/api';
 import PropTypes from 'prop-types';
 import { Keyboard, ActivityIndicator, Modal } from 'react-native';
+import { TouchableHighlight, ScrollView } from 'react-native-gesture-handler';
 import {
   Container,
-  Form,
-  Input,
-  SubmitButton,
+  SearchButton,
   List,
   MoviePoster,
   Movie,
   NameMovie,
-  Menu,
+  MenuButton,
   Loadding,
   ModalView,
   MoviePosterModal,
   NameApp,
-  HeaderModal,
-  Overview,
+  DetailsMovie,
+  DateMovie,
+  Header,
+  BackButton,
+  Menu,
 } from './styles';
-import { TouchableHighlight } from 'react-native-gesture-handler';
-
-//test('should verify if request movies list', async () => {
-//const data = await request('discover/movie', { page: 1 }, true);
-
-//expect(data).toBe(200);
-//});
-
-//test('should verify if request movie search', async () => {
-//const data = await request(
-//'search/movie',
-// { page: 1, query: 'Tomb Raider' },
-//true
-//);
-
 //expect(data).toBe(200);
 //});
 
@@ -48,7 +35,7 @@ import { TouchableHighlight } from 'react-native-gesture-handler';
 // expect(data).toBe(200);
 //});
 
-export default function Main() {
+export default function Main({ navigation }) {
   const [moviesRecent, setMoviesRecent] = useState('');
   const [isLoadding, setIsLoadding] = useState(false);
   const [page, setPage] = useState(1);
@@ -57,9 +44,11 @@ export default function Main() {
 
   const searchRecentMovies = async () => {
     setIsLoadding(true);
+    var date = new Date().getDate();
+    var year = new Date().getFullYear();
     const response = await request(
       `discover/movie`,
-      `&primary_release_year=2020&primary_release_date.gte=2020&include_adult=false&include_video=false`,
+      `&primary_release_year=${year}&primary_release_date.gte=${date}&include_adult=false&include_video=false`,
       page
     );
     setMoviesRecent(response);
@@ -91,21 +80,20 @@ export default function Main() {
 
   return (
     <Container>
-      <Form>
-        <Input
-          autoCorrect={false}
-          autoCapitalize="none"
-          placeholder="Pesquisar Filmes"
-          //value={newUser}
-          //onChangeText={text => this.setState({ newUser: text })}
-          returnKeyType="send"
-          //onSubmitEditing={this.handlerAddUser}
-        />
-
-        <SubmitButton>
-          <Icon name="search" size={20} color="#8b0000" />
-        </SubmitButton>
-      </Form>
+      <Header>
+        <MenuButton>
+          <Icon name="menu" size={20} color="#8b0000" />
+        </MenuButton>
+        <NameApp>Sertão Filmes</NameApp>
+        <SearchButton>
+          <Icon
+            name="search"
+            size={20}
+            color="#8b0000"
+            onPress={() => navigation.navigate('Search')}
+          />
+        </SearchButton>
+      </Header>
 
       {isLoadding ? (
         <Loadding />
@@ -124,32 +112,39 @@ export default function Main() {
         transparent={false}
         onRequestClose={() => setModalOpen(false)}
       >
-        <ModalView>
-          <HeaderModal>
-            <Icon
-              name="keyboard-arrow-left"
-              size={40}
-              color="#fff"
-              onPress={() => setModalOpen(false)}
+        <ScrollView>
+          <ModalView>
+            <Header>
+              <BackButton>
+                <Icon
+                  name="keyboard-arrow-left"
+                  size={40}
+                  color="#8b0000"
+                  onPress={() => setModalOpen(false)}
+                />
+              </BackButton>
+              <NameApp>Sertão Filmes</NameApp>
+            </Header>
+
+            <MoviePosterModal
+              source={{
+                uri: 'https://image.tmdb.org/t/p/original' + item.poster_path,
+              }}
             />
-            <NameApp>Sertão Filmes</NameApp>
-          </HeaderModal>
 
-          <MoviePosterModal
-            source={{
-              uri: 'https://image.tmdb.org/t/p/original' + item.poster_path,
-            }}
-          />
-
-          <NameMovie>{item.original_title}</NameMovie>
-          <Overview>Visão geral</Overview>
-          <Overview>{item.overview}</Overview>
-        </ModalView>
+            <NameMovie>{item.original_title}</NameMovie>
+            <DateMovie>({item.release_date})</DateMovie>
+            <DetailsMovie>Popularidade</DetailsMovie>
+            <DetailsMovie>{item.popularity}</DetailsMovie>
+            <DetailsMovie>Média de votos</DetailsMovie>
+            <DetailsMovie>{item.vote_average}</DetailsMovie>
+            <DetailsMovie>Linguagem original</DetailsMovie>
+            <DetailsMovie>{item.original_language}</DetailsMovie>
+            <DetailsMovie>Visão geral</DetailsMovie>
+            <DetailsMovie>{item.overview}</DetailsMovie>
+          </ModalView>
+        </ScrollView>
       </Modal>
     </Container>
   );
 }
-
-Main.navigationOptions = {
-  title: 'Sertão Filmes',
-};
