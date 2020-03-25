@@ -12,11 +12,13 @@ import {
   MoviePoster,
   Movie,
   NameMovie,
-  WatchMovieButton,
-  WatchMovieButtonText,
   Menu,
   Loadding,
   ModalView,
+  MoviePosterModal,
+  NameApp,
+  HeaderModal,
+  Overview,
 } from './styles';
 import { TouchableHighlight } from 'react-native-gesture-handler';
 
@@ -51,55 +53,35 @@ export default function Main() {
   const [isLoadding, setIsLoadding] = useState(false);
   const [page, setPage] = useState(1);
   const [modalOpen, setModalOpen] = useState(false);
+  const [item, setItem] = useState('');
 
   const searchRecentMovies = async () => {
     setIsLoadding(true);
-    const response = await request(`discover/movie`, page);
+    const response = await request(
+      `discover/movie`,
+      `&primary_release_year=2020&primary_release_date.gte=2020&include_adult=false&include_video=false`,
+      page
+    );
     setMoviesRecent(response);
     setIsLoadding(false);
   };
 
-  const modal = ({ item }) => {
-    console.log(item);
-    setModalOpen(true);
+  const movieListRecent = ({ item }) => {
     return (
-      <Modal
-        visible={modalOpen}
-        animationType="slide"
-        transparent={false}
-        onRequestClose={() => setModalOpen(false)}
-      >
-        <ModalView>
+      <Movie>
+        <TouchableHighlight
+          onPress={() => {
+            setItem(item);
+            setModalOpen(true);
+          }}
+        >
           <MoviePoster
             source={{
               uri: 'https://image.tmdb.org/t/p/original' + item.poster_path,
             }}
           />
-
-          <Icon
-            name="close"
-            size={90}
-            color="#fff"
-            onPress={() => setModalOpen(false)}
-          />
-        </ModalView>
-      </Modal>
-    );
-  };
-
-  const movieListRecent = ({ item }) => {
-    return (
-      <>
-        <Movie>
-          <TouchableHighlight onPress={() => {}}>
-            <MoviePoster
-              source={{
-                uri: 'https://image.tmdb.org/t/p/original' + item.poster_path,
-              }}
-            />
-          </TouchableHighlight>
-        </Movie>
-      </>
+        </TouchableHighlight>
+      </Movie>
     );
   };
 
@@ -135,6 +117,35 @@ export default function Main() {
           renderItem={movieListRecent}
         />
       ) : null}
+
+      <Modal
+        visible={modalOpen}
+        animationType="slide"
+        transparent={false}
+        onRequestClose={() => setModalOpen(false)}
+      >
+        <ModalView>
+          <HeaderModal>
+            <Icon
+              name="keyboard-arrow-left"
+              size={40}
+              color="#fff"
+              onPress={() => setModalOpen(false)}
+            />
+            <NameApp>Sertão Filmes</NameApp>
+          </HeaderModal>
+
+          <MoviePosterModal
+            source={{
+              uri: 'https://image.tmdb.org/t/p/original' + item.poster_path,
+            }}
+          />
+
+          <NameMovie>{item.original_title}</NameMovie>
+          <Overview>Visão geral</Overview>
+          <Overview>{item.overview}</Overview>
+        </ModalView>
+      </Modal>
     </Container>
   );
 }

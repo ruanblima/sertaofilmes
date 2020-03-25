@@ -9,7 +9,7 @@ export const Container = styled.View`
 
 export const ModalView = styled.View`
   flex: 1;
-  padding: 3px;
+  padding: 8px;
   background: #8b0000;
 `;
 
@@ -66,28 +66,25 @@ export const Movie = styled.View`
 `;
 
 export const NameMovie = styled.Text`
-  font-size: 14px;
-  color: #333;
+  font-size: 20px;
+  color: #eee;
   font-weight: bold;
   margin-top: 4px;
   text-align: center;
 `;
 
-export const WatchMovieButton = styled(RectButton)`
-  margin-top: 10px;
-  align-self: stretch;
-  border-radius: 4px;
-  background: #8b0000;
-  justify-content: center;
-  align-items: center;
-  height: 36px;
-`;
-
-export const WatchMovieButtonText = styled.Text`
-  font-size: 14px;
+export const NameApp = styled.Text`
+  font-size: 20px;
+  color: #eee;
   font-weight: bold;
-  color: #fff;
-  text-transform: uppercase;
+  margin-top: 4px;
+  margin-left: 70px;
+  text-align: center;
+`;
+export const MoviePosterModal = styled.Image`
+  width: 100%;
+  height: 280px;
+  background: #eee;
 `;
 
 export const Loadding = styled.ActivityIndicator.attrs({
@@ -95,4 +92,17 @@ export const Loadding = styled.ActivityIndicator.attrs({
   color: '#fff',
 })`
   margin-top: 10;
+`;
+
+export const HeaderModal = styled.View`
+  flex-direction: row;
+  border-bottom-width: 1px;
+  border-color: #8b0000;
+`;
+
+export const Overview = styled.Text`
+  font-size: 12px;
+  color: #eee;
+  font-weight: bold;
+  margin-top: 4px;
 `;
