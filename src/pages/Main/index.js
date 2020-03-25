@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import request from '../../services/api';
 import PropTypes from 'prop-types';
-import { Keyboard, ActivityIndicator } from 'react-native';
+import { Keyboard, ActivityIndicator, Modal } from 'react-native';
 import {
   Container,
   Form,
@@ -15,7 +15,10 @@ import {
   WatchMovieButton,
   WatchMovieButtonText,
   Menu,
+  Loadding,
+  ModalView,
 } from './styles';
+import { TouchableHighlight } from 'react-native-gesture-handler';
 
 //test('should verify if request movies list', async () => {
 //const data = await request('discover/movie', { page: 1 }, true);
@@ -45,26 +48,58 @@ import {
 
 export default function Main() {
   const [moviesRecent, setMoviesRecent] = useState('');
+  const [isLoadding, setIsLoadding] = useState(false);
+  const [page, setPage] = useState(1);
+  const [modalOpen, setModalOpen] = useState(false);
 
   const searchRecentMovies = async () => {
-    const response = await request(`discover/movie`);
+    setIsLoadding(true);
+    const response = await request(`discover/movie`, page);
     setMoviesRecent(response);
+    setIsLoadding(false);
+  };
+
+  const modal = ({ item }) => {
+    console.log(item);
+    setModalOpen(true);
+    return (
+      <Modal
+        visible={modalOpen}
+        animationType="slide"
+        transparent={false}
+        onRequestClose={() => setModalOpen(false)}
+      >
+        <ModalView>
+          <MoviePoster
+            source={{
+              uri: 'https://image.tmdb.org/t/p/original' + item.poster_path,
+            }}
+          />
+
+          <Icon
+            name="close"
+            size={90}
+            color="#fff"
+            onPress={() => setModalOpen(false)}
+          />
+        </ModalView>
+      </Modal>
+    );
   };
 
   const movieListRecent = ({ item }) => {
     return (
-      <Movie>
-        <MoviePoster
-          source={{
-            uri: 'https://image.tmdb.org/t/p/original' + item.poster_path,
-          }}
-        />
-        <NameMovie>{item.title}</NameMovie>
-
-        <WatchMovieButton>
-          <WatchMovieButtonText>Ver filme</WatchMovieButtonText>
-        </WatchMovieButton>
-      </Movie>
+      <>
+        <Movie>
+          <TouchableHighlight onPress={() => {}}>
+            <MoviePoster
+              source={{
+                uri: 'https://image.tmdb.org/t/p/original' + item.poster_path,
+              }}
+            />
+          </TouchableHighlight>
+        </Movie>
+      </>
     );
   };
 
@@ -86,15 +121,20 @@ export default function Main() {
         />
 
         <SubmitButton>
-          <Icon name="search" size={20} color="#FFF" />
+          <Icon name="search" size={20} color="#8b0000" />
         </SubmitButton>
       </Form>
 
-      <List
-        data={moviesRecent.results}
-        keyExtractor={(item) => item.id}
-        renderItem={movieListRecent}
-      />
+      {isLoadding ? (
+        <Loadding />
+      ) : movieListRecent.length ? (
+        <List
+          numColumns={3}
+          data={moviesRecent.results}
+          keyExtractor={(item) => item.id}
+          renderItem={movieListRecent}
+        />
+      ) : null}
     </Container>
   );
 }

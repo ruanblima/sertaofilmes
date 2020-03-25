@@ -3,7 +3,14 @@ import { RectButton } from 'react-native-gesture-handler';
 
 export const Container = styled.View`
   flex: 1;
-  padding: 30px;
+  padding: 3px;
+  background: #8b0000;
+`;
+
+export const ModalView = styled.View`
+  flex: 1;
+  padding: 3px;
+  background: #8b0000;
 `;
 
 export const Menu = styled.View`
@@ -18,7 +25,7 @@ export const Form = styled.View`
   flex-direction: row;
   padding-bottom: 20px;
   border-bottom-width: 1px;
-  border-color: #eee;
+  border-color: #8b0000;
 `;
 
 export const Input = styled.TextInput.attrs({
@@ -26,7 +33,7 @@ export const Input = styled.TextInput.attrs({
 })`
   flex: 1;
   height: 40px;
-  background: #eee;
+
   padding 0 15px;
   border: 1px solid #eee;
 `;
@@ -34,7 +41,7 @@ export const Input = styled.TextInput.attrs({
 export const SubmitButton = styled(RectButton)`
   justify-content: center;
   align-items: center;
-  background: #8b0000;
+  background: #eee;
   border-radius: 4px;
   margin-left: 10px;
   padding: 0 12px;
@@ -44,19 +51,18 @@ export const SubmitButton = styled(RectButton)`
 export const List = styled.FlatList.attrs({
   showVerticalScrollIndicator: false,
 })`
-  margin-top: 20px;
+  margin-top: 10px;
 `;
 
 export const MoviePoster = styled.Image`
-  width: 100%;
-  height: 200px;
-  border-radius: 2px;
+  width: 110px;
+  height: 160px;
   background: #eee;
 `;
 
 export const Movie = styled.View`
   align-items: center;
-  margin: 0 20px 30px;
+  margin: 0 4px 8px;
 `;
 
 export const NameMovie = styled.Text`
@@ -82,4 +88,11 @@ export const WatchMovieButtonText = styled.Text`
   font-weight: bold;
   color: #fff;
   text-transform: uppercase;
+`;
+
+export const Loadding = styled.ActivityIndicator.attrs({
+  size: 'large',
+  color: '#fff',
+})`
+  margin-top: 10;
 `;
