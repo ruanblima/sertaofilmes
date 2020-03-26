@@ -4,9 +4,9 @@ const api = 'https://api.themoviedb.org/3';
 
 const language = 'pt-BR';
 
-export default async function request(url, filter, page) {
+export default async function request(url, query, filter, page) {
   const response = await fetch(
-    `${api}/${url}?api_key=${key}&language=${language}${filter}&page=${page}`
+    `${api}/${url}?api_key=${key}&${query}&language=${language}${filter}&page=${page}`
   );
   return response.json();
 }

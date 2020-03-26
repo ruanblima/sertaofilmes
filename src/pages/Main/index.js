@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import request from '../../services/api';
 import PropTypes from 'prop-types';
-import { Keyboard, ActivityIndicator, Modal } from 'react-native';
+import { Modal } from 'react-native';
 import { TouchableHighlight, ScrollView } from 'react-native-gesture-handler';
 import {
   Container,
@@ -48,6 +48,7 @@ export default function Main({ navigation }) {
     var year = new Date().getFullYear();
     const response = await request(
       `discover/movie`,
+      ``,
       `&primary_release_year=${year}&primary_release_date.gte=${date}&include_adult=false&include_video=false`,
       page
     );
@@ -85,13 +86,8 @@ export default function Main({ navigation }) {
           <Icon name="menu" size={20} color="#8b0000" />
         </MenuButton>
         <NameApp>Sertão Filmes</NameApp>
-        <SearchButton>
-          <Icon
-            name="search"
-            size={20}
-            color="#8b0000"
-            onPress={() => navigation.navigate('Search')}
-          />
+        <SearchButton onPress={() => navigation.navigate('Search')}>
+          <Icon name="search" size={20} color="#8b0000" />
         </SearchButton>
       </Header>
 

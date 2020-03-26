@@ -13,15 +13,11 @@ export default function Routes() {
         headerShown: false,
       }}
     >
-      <Stack.Screen
-        name="Main"
-        component={Main}
-        options={{ title: 'Sertão Filmes' }}
-      />
+      <Stack.Screen name="Main" component={Main} options={{ title: 'Main' }} />
       <Stack.Screen
         name="Search"
         component={Search}
-        options={{ title: 'Sertão Filmes' }}
+        options={{ title: 'Search' }}
       />
     </Stack.Navigator>
   );
