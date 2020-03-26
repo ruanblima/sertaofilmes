@@ -17,26 +17,6 @@ export const NameApp = styled.Text`
   font-weight: bold;
 `;
 
-export const SearchButton = styled(RectButton)`
-  justify-content: center;
-  align-items: center;
-  border-radius: 4px;
-  height: 40px;
-  padding: 0 12px;
-  position: absolute;
-  right: 10px;
-`;
-
-export const MenuButton = styled(RectButton)`
-  justify-content: center;
-  align-items: center;
-  border-radius: 4px;
-  height: 40px;
-  padding: 0 12px;
-  position: absolute;
-  left: 10px;
-`;
-
 export const BackButton = styled(RectButton)`
   justify-content: center;
   align-items: center;
@@ -46,24 +26,16 @@ export const BackButton = styled(RectButton)`
   left: 0;
 `;
 
-export const ModalView = styled.View`
-  flex: 1;
-  padding: 8px;
-  background: #8b0000;
-`;
-
-export const Menu = styled.View`
-  padding: 30px;
-  height: 1px;
-  width: 100%;
-  background: #8b0000;
-  border: 1px solid #8b0000;
-`;
-
 export const List = styled.FlatList.attrs({
   showVerticalScrollIndicator: false,
 })`
   margin-top: 10px;
+`;
+
+export const ModalView = styled.View`
+  flex: 1;
+  padding: 8px;
+  background: #8b0000;
 `;
 
 export const MoviePoster = styled.Image`
@@ -116,49 +88,4 @@ export const DetailsMovie = styled.Text`
   color: #eee;
   font-weight: bold;
   margin-top: 2px;
-`;
-
-export const NameGenre = styled.Text`
-  font-size: 20px;
-  color: #fff;
-  font-weight: bold;
-  margin-top: 15px;
-  text-align: center;
-`;
-
-export const ButtonGenre = styled.View`
-  flex-direction: row;
-  border-bottom-width: 1px;
-  border: 0 solid #8b0000;
-  height: 50px;
-  justify-content: center;
-  align-items: center;
-`;
-export const ButtonGenreIcon = styled.View`
-  justify-content: center;
-  align-items: center;
-  align-self: flex-end;
-  border-radius: 4px;
-  height: 40px;
-  padding: 0 12px;
-  position: absolute;
-  left: 10px;
-`;
-
-export const HeaderMenu = styled.View`
-  flex-direction: row;
-  border-bottom-width: 1px;
-  border: 0 solid #8b0000;
-  background: #8b0000;
-  height: 50px;
-  justify-content: center;
-  align-items: center;
-`;
-
-export const NameSearch = styled.Text`
-  font-size: 20px;
-  color: #fff;
-  font-weight: bold;
-  margin-top: 8px;
-  text-align: center;
 `;

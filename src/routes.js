@@ -3,6 +3,7 @@ import React from 'react';
 const Stack = createStackNavigator();
 import Main from './pages/Main';
 import Search from './pages/Search';
+import MovieGenre from './pages/MovieGenre';
 
 export default function Routes() {
   return (
@@ -18,6 +19,12 @@ export default function Routes() {
         name="Search"
         component={Search}
         options={{ title: 'Search' }}
+      />
+
+      <Stack.Screen
+        name="MovieGenre"
+        component={MovieGenre}
+        options={{ title: 'MovieGenre' }}
       />
     </Stack.Navigator>
   );
