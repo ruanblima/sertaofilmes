@@ -26,20 +26,7 @@ import {
   HeaderMenu,
   NameSearch,
   ButtonGenreIcon,
-  Menu,
 } from './styles';
-//expect(data).toBe(200);
-//});
-
-//test('should verify if request movies list with genre X', async () => {
-//const data = await request(
-//'discover/movie',
-// { page: 1, with_genres: '12' },
-// true
-// );
-
-// expect(data).toBe(200);
-//});
 
 export default function Main({ navigation }) {
   const [moviesRecent, setMoviesRecent] = useState('');
@@ -48,7 +35,6 @@ export default function Main({ navigation }) {
   const [modalOpen, setModalOpen] = useState(false);
   const [item, setItem] = useState('');
   const [genres, setGenres] = useState('');
-  const [idGenre, setIdGenre] = useState('');
 
   const searchGenres = async () => {
     const response = await request(`genre/movie/list`, ``, ``, page);
@@ -71,7 +57,13 @@ export default function Main({ navigation }) {
 
   const listGenre = ({ item }) => {
     return (
-      <TouchableHighlight onPress={() => navigation.push('MovieGenre')}>
+      <TouchableHighlight
+        onPress={() => {
+          navigation.navigate('MovieGenre', {
+            itemId: item.id,
+          });
+        }}
+      >
         <ButtonGenre>
           <ButtonGenreIcon>
             <Icon name="local-movies" size={20} color="#FFF" />
