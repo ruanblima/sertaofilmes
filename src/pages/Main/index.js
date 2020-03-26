@@ -4,8 +4,9 @@ import request from '../../services/api';
 import PropTypes from 'prop-types';
 import { Modal } from 'react-native';
 import { TouchableHighlight, ScrollView } from 'react-native-gesture-handler';
+import { Background } from '../../components/Background/index';
+import DrawerLayout from 'react-native-gesture-handler/DrawerLayout';
 import {
-  Container,
   SearchButton,
   List,
   MoviePoster,
@@ -80,14 +81,14 @@ export default function Main({ navigation }) {
   }, []);
 
   return (
-    <Container>
+    <Background>
       <Header>
         <MenuButton>
-          <Icon name="menu" size={20} color="#8b0000" />
+          <Icon name="menu" size={30} color="#FFF" />
         </MenuButton>
         <NameApp>Sertão Filmes</NameApp>
         <SearchButton onPress={() => navigation.navigate('Search')}>
-          <Icon name="search" size={20} color="#8b0000" />
+          <Icon name="search" size={30} color="#FFF" />
         </SearchButton>
       </Header>
 
@@ -115,7 +116,7 @@ export default function Main({ navigation }) {
                 <Icon
                   name="keyboard-arrow-left"
                   size={40}
-                  color="#8b0000"
+                  color="#FFF"
                   onPress={() => setModalOpen(false)}
                 />
               </BackButton>
@@ -124,7 +125,7 @@ export default function Main({ navigation }) {
 
             <MoviePosterModal
               source={{
-                uri: 'https://image.tmdb.org/t/p/original' + item.poster_path,
+                uri: 'https://image.tmdb.org/t/p/original' + item.backdrop_path,
               }}
             />
 
@@ -141,6 +142,6 @@ export default function Main({ navigation }) {
           </ModalView>
         </ScrollView>
       </Modal>
-    </Container>
+    </Background>
   );
 }

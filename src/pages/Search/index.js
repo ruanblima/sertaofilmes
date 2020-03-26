@@ -3,8 +3,8 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import request from '../../services/api';
 import { TouchableHighlight, ScrollView } from 'react-native-gesture-handler';
 import { Keyboard, ActivityIndicator, Modal } from 'react-native';
+import { Background } from '../../components/Background/index';
 import {
-  Container,
   Form,
   Input,
   SubmitButton,
@@ -63,10 +63,10 @@ export default function Search({ navigation }) {
   };
 
   return (
-    <Container>
+    <Background>
       <Header>
         <BackButton onPress={() => navigation.pop()}>
-          <Icon name="keyboard-arrow-left" size={40} color="#8b0000" />
+          <Icon name="keyboard-arrow-left" size={40} color="#FFF" />
         </BackButton>
         <NameApp>Sertão Filmes</NameApp>
       </Header>
@@ -114,7 +114,7 @@ export default function Search({ navigation }) {
                 <Icon
                   name="keyboard-arrow-left"
                   size={40}
-                  color="#8b0000"
+                  color="#FFF"
                   onPress={() => setModalOpen(false)}
                 />
               </BackButton>
@@ -123,7 +123,7 @@ export default function Search({ navigation }) {
 
             <MoviePosterModal
               source={{
-                uri: 'https://image.tmdb.org/t/p/original' + item.poster_path,
+                uri: 'https://image.tmdb.org/t/p/original' + item.backdrop_path,
               }}
             />
 
@@ -140,6 +140,6 @@ export default function Search({ navigation }) {
           </ModalView>
         </ScrollView>
       </Modal>
-    </Container>
+    </Background>
   );
 }

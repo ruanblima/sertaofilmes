@@ -1,12 +1,6 @@
 import styled from 'styled-components/native';
 import { RectButton } from 'react-native-gesture-handler';
 
-export const Container = styled.View`
-  flex: 1;
-  padding: 3px;
-  background: #8b0000;
-`;
-
 export const Header = styled.View`
   flex-direction: row;
   border-bottom-width: 1px;
@@ -26,7 +20,6 @@ export const NameApp = styled.Text`
 export const BackButton = styled(RectButton)`
   justify-content: center;
   align-items: center;
-  background: #eee;
   border-radius: 4px;
   height: 35px;
   position: absolute;
@@ -43,7 +36,6 @@ export const Form = styled.View`
 
 export const Input = styled.TextInput.attrs({
   placeholderTextColor: '#eee',
-  selectionColor: '#eee',
 })`
   flex: 1;
   height: 40px;
