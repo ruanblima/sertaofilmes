@@ -23,20 +23,29 @@ import {
 } from './styles';
 
 export default function Search({ navigation }) {
-  const [movies, setMovies] = useState('');
+  const [movies, setMovies] = useState([]);
   const [isLoadding, setIsLoadding] = useState(false);
   const [page, setPage] = useState(1);
   const [modalOpen, setModalOpen] = useState(false);
   const [item, setItem] = useState('');
   const [query, setQuery] = useState('');
   const [loadindSearch, setLoadinSerach] = useState(false);
+  const [total, setTotal] = useState(0);
 
   //Buscar filmes na api pela a query
   const searchMovies = async () => {
+    if (isLoadding) {
+      return;
+    }
+    if (total > 0 && movies.length === total) {
+      return;
+    }
     setIsLoadding(true);
     setLoadinSerach(true);
     const response = await request(`search/movie`, `query=` + query, ``, page);
-    setMovies(response);
+    setMovies([...movies, ...response.results]);
+    setPage(page + 1);
+    setTotal(response.total_results);
     setIsLoadding(false);
     setLoadinSerach(false);
     Keyboard.dismiss();
@@ -96,9 +105,13 @@ export default function Search({ navigation }) {
       ) : movieList.length ? (
         <List
           numColumns={3}
-          data={movies.results}
+          data={movies}
           keyExtractor={(item) => item.id}
+          onEndReached={searchMovies}
+          onEndReachedThreshold={0.2}
           renderItem={movieList}
+          onRefresh={() => searchMovies()}
+          refreshing={isLoadding}
         />
       ) : null}
       <Modal

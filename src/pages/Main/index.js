@@ -29,7 +29,8 @@ import {
 } from './styles';
 
 export default function Main({ navigation }) {
-  const [moviesRecent, setMoviesRecent] = useState('');
+  const [moviesRecent, setMoviesRecent] = useState([]);
+  const [total, setTotal] = useState(0);
   const [isLoadding, setIsLoadding] = useState(false);
   const [page, setPage] = useState(1);
   const [modalOpen, setModalOpen] = useState(false);
@@ -42,6 +43,12 @@ export default function Main({ navigation }) {
   };
 
   const searchRecentMovies = async () => {
+    if (isLoadding) {
+      return;
+    }
+    if (total > 0 && moviesRecent.length === total) {
+      return;
+    }
     setIsLoadding(true);
     var date = new Date().getDate();
     var year = new Date().getFullYear();
@@ -51,7 +58,9 @@ export default function Main({ navigation }) {
       `&primary_release_year=${year}&primary_release_date.gte=${date}&include_adult=false&include_video=false`,
       page
     );
-    setMoviesRecent(response);
+    setMoviesRecent([...moviesRecent, ...response.results]);
+    setPage(page + 1);
+    setTotal(response.total_results);
     setIsLoadding(false);
   };
 
@@ -138,9 +147,13 @@ export default function Main({ navigation }) {
         ) : movieListRecent.length ? (
           <List
             numColumns={3}
-            data={moviesRecent.results}
+            data={moviesRecent}
             keyExtractor={(item) => item.id}
+            onEndReached={searchRecentMovies}
+            onEndReachedThreshold={0.2}
             renderItem={movieListRecent}
+            onRefresh={() => searchRecentMovies()}
+            refreshing={isLoadding}
           />
         ) : null}
 

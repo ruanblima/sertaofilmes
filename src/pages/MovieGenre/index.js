@@ -21,22 +21,30 @@ import {
 
 export default function MovieGenre({ route, navigation }) {
   const { itemId } = route.params;
-  const [movies, setMovies] = useState('');
+  const [movies, setMovies] = useState([]);
   const [isLoadding, setIsLoadding] = useState(false);
   const [page, setPage] = useState(1);
   const [modalOpen, setModalOpen] = useState(false);
   const [item, setItem] = useState('');
+  const [total, setTotal] = useState(0);
 
   const searchMoviesGenre = async () => {
+    if (isLoadding) {
+      return;
+    }
+    if (total > 0 && movies.length === total) {
+      return;
+    }
     setIsLoadding(true);
-
     const response = await request(
       `discover/movie`,
       ``,
       `&with_genres=${itemId}&include_adult=false&include_video=false`,
       page
     );
-    setMovies(response);
+    setMovies([...movies, ...response.results]);
+    setPage(page + 1);
+    setTotal(response.total_results);
     setIsLoadding(false);
   };
   const movieList = ({ item }) => {
@@ -81,9 +89,13 @@ export default function MovieGenre({ route, navigation }) {
       ) : movieList.length ? (
         <List
           numColumns={3}
-          data={movies.results}
+          data={movies}
           keyExtractor={(item) => item.id}
+          onEndReached={searchMoviesGenre}
+          onEndReachedThreshold={0.2}
           renderItem={movieList}
+          onRefresh={() => searchMoviesGenre()}
+          refreshing={isLoadding}
         />
       ) : null}
 
