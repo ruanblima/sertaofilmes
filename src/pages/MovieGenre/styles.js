@@ -15,6 +15,7 @@ export const NameApp = styled.Text`
   font-size: 20px;
   color: #eee;
   font-weight: bold;
+  margin: 0 60px 0px;
 `;
 
 export const BackButton = styled(RectButton)`

@@ -99,21 +99,17 @@ export default function Search({ navigation }) {
           )}
         </SubmitButton>
       </Form>
+      <List
+        numColumns={3}
+        data={movies}
+        keyExtractor={(item) => item.id}
+        onEndReached={searchMovies}
+        onEndReachedThreshold={0.2}
+        renderItem={movieList}
+        onRefresh={() => searchMovies()}
+        refreshing={isLoadding}
+      />
 
-      {isLoadding ? (
-        <Loadding />
-      ) : movieList.length ? (
-        <List
-          numColumns={3}
-          data={movies}
-          keyExtractor={(item) => item.id}
-          onEndReached={searchMovies}
-          onEndReachedThreshold={0.2}
-          renderItem={movieList}
-          onRefresh={() => searchMovies()}
-          refreshing={isLoadding}
-        />
-      ) : null}
       <Modal
         visible={modalOpen}
         animationType="slide"

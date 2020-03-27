@@ -141,21 +141,16 @@ export default function Main({ navigation }) {
             <Icon name="search" size={30} color="#FFF" />
           </SearchButton>
         </Header>
-
-        {isLoadding ? (
-          <Loadding />
-        ) : movieListRecent.length ? (
-          <List
-            numColumns={3}
-            data={moviesRecent}
-            keyExtractor={(item) => item.id}
-            onEndReached={searchRecentMovies}
-            onEndReachedThreshold={0.2}
-            renderItem={movieListRecent}
-            onRefresh={() => searchRecentMovies()}
-            refreshing={isLoadding}
-          />
-        ) : null}
+        <List
+          numColumns={3}
+          data={moviesRecent}
+          keyExtractor={(item) => item.id}
+          onEndReached={searchRecentMovies}
+          onEndReachedThreshold={0.1}
+          renderItem={movieListRecent}
+          onRefresh={() => searchRecentMovies()}
+          refreshing={isLoadding}
+        />
 
         <Modal
           visible={modalOpen}

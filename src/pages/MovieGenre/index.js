@@ -84,20 +84,16 @@ export default function MovieGenre({ route, navigation }) {
         <NameApp>Sertão Filmes</NameApp>
       </Header>
 
-      {isLoadding ? (
-        <Loadding />
-      ) : movieList.length ? (
-        <List
-          numColumns={3}
-          data={movies}
-          keyExtractor={(item) => item.id}
-          onEndReached={searchMoviesGenre}
-          onEndReachedThreshold={0.2}
-          renderItem={movieList}
-          onRefresh={() => searchMoviesGenre()}
-          refreshing={isLoadding}
-        />
-      ) : null}
+      <List
+        numColumns={3}
+        data={movies}
+        keyExtractor={(item) => item.id}
+        onEndReached={searchMoviesGenre}
+        onEndReachedThreshold={0.2}
+        renderItem={movieList}
+        onRefresh={() => searchMoviesGenre()}
+        refreshing={isLoadding}
+      />
 
       <Modal
         visible={modalOpen}

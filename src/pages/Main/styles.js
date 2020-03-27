@@ -15,26 +15,21 @@ export const NameApp = styled.Text`
   font-size: 20px;
   color: #eee;
   font-weight: bold;
+  margin: 0 60px 0px;
 `;
 
 export const SearchButton = styled(RectButton)`
   justify-content: center;
   align-items: center;
-  border-radius: 4px;
   height: 40px;
   padding: 0 12px;
-  position: absolute;
-  right: 10px;
 `;
 
 export const MenuButton = styled(RectButton)`
   justify-content: center;
   align-items: center;
-  border-radius: 4px;
   height: 40px;
   padding: 0 12px;
-  position: absolute;
-  left: 10px;
 `;
 
 export const BackButton = styled(RectButton)`
