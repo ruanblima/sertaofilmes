@@ -2,8 +2,15 @@ import React, { useState, useEffect } from 'react';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import request from '../../services/api';
 import { TouchableHighlight, ScrollView } from 'react-native-gesture-handler';
-import { Keyboard, ActivityIndicator, Modal } from 'react-native';
+import {
+  Keyboard,
+  ActivityIndicator,
+  Modal,
+  TouchableWithoutFeedback,
+  TouchableOpacity,
+} from 'react-native';
 import { Background } from '../../components/Background/index';
+import { Dimensions, PixelRatio } from 'react-native';
 import {
   Form,
   Input,
@@ -31,6 +38,13 @@ export default function Search({ navigation }) {
   const [query, setQuery] = useState('');
   const [loadindSearch, setLoadinSerach] = useState(false);
   const [total, setTotal] = useState(0);
+
+  const widthPercentageToDP = (widthPercent) => {
+    const screenWidth = Dimensions.get('window').width;
+    return PixelRatio.roundToNearestPixel(
+      (screenWidth * parseFloat(widthPercent)) / 100
+    );
+  };
 
   //Buscar filmes na api pela a query
   const searchMovies = async () => {
@@ -61,23 +75,48 @@ export default function Search({ navigation }) {
             setModalOpen(true);
           }}
         >
-          <MoviePoster
-            source={{
-              uri: 'https://image.tmdb.org/t/p/original' + item.poster_path,
-            }}
-          />
+          <TouchableOpacity
+            accessible={true}
+            accessibilityLabel={
+              'O nome deste filme é: ' +
+              item.original_title +
+              ' e se deseja ver os detalhes do filme, aperte na imagem do filme.'
+            }
+          >
+            <MoviePoster
+              source={{
+                uri: 'https://image.tmdb.org/t/p/original' + item.poster_path,
+              }}
+            />
+          </TouchableOpacity>
         </TouchableHighlight>
       </Movie>
     );
   };
 
   return (
-    <Background>
+    <Background accessible={true}>
       <Header>
-        <BackButton onPress={() => navigation.pop()}>
-          <Icon name="keyboard-arrow-left" size={40} color="#FFF" />
-        </BackButton>
-        <NameApp>Sertão Filmes</NameApp>
+        <TouchableWithoutFeedback
+          hitSlop={{ top: 20, bottom: 20, left: 50, right: 50 }}
+        >
+          <BackButton onPress={() => navigation.pop()}>
+            <TouchableOpacity
+              accessible={true}
+              accessibilityLabel="Aperte o botão para voltar para a tela anterior."
+            >
+              <Icon
+                name="keyboard-arrow-left"
+                size={widthPercentageToDP('10%')}
+                color="#FFF"
+              />
+            </TouchableOpacity>
+          </BackButton>
+        </TouchableWithoutFeedback>
+
+        <TouchableOpacity accessible={true} accessibilityLabel="Sertão Filmes">
+          <NameApp>Sertão Filmes</NameApp>
+        </TouchableOpacity>
       </Header>
 
       <Form>
@@ -95,7 +134,11 @@ export default function Search({ navigation }) {
           {loadindSearch ? (
             <ActivityIndicator color="#FFF" />
           ) : (
-            <Icon name="search" size={20} color="#8b0000" />
+            <Icon
+              name="search"
+              size={widthPercentageToDP('6%')}
+              color="#8b0000"
+            />
           )}
         </SubmitButton>
       </Form>
@@ -119,15 +162,30 @@ export default function Search({ navigation }) {
         <ScrollView>
           <ModalView>
             <Header>
-              <BackButton>
-                <Icon
-                  name="keyboard-arrow-left"
-                  size={40}
-                  color="#FFF"
-                  onPress={() => setModalOpen(false)}
-                />
-              </BackButton>
-              <NameApp>Sertão Filmes</NameApp>
+              <TouchableWithoutFeedback
+                hitSlop={{ top: 20, bottom: 20, left: 50, right: 50 }}
+              >
+                <BackButton>
+                  <TouchableOpacity
+                    accessible={true}
+                    accessibilityLabel="Aperte o botão para voltar para a tela anterior."
+                  >
+                    <Icon
+                      name="keyboard-arrow-left"
+                      size={widthPercentageToDP('10%')}
+                      color="#FFF"
+                      onPress={() => setModalOpen(false)}
+                    />
+                  </TouchableOpacity>
+                </BackButton>
+              </TouchableWithoutFeedback>
+
+              <TouchableOpacity
+                accessible={true}
+                accessibilityLabel="Sertão Filmes"
+              >
+                <NameApp>Sertão Filmes</NameApp>
+              </TouchableOpacity>
             </Header>
 
             <MoviePosterModal

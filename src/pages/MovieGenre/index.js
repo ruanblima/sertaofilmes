@@ -1,9 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import request from '../../services/api';
-import { Modal } from 'react-native';
+import {
+  Modal,
+  TouchableOpacity,
+  TouchableWithoutFeedback,
+} from 'react-native';
 import { Background } from '../../components/Background/index';
 import { TouchableHighlight, ScrollView } from 'react-native-gesture-handler';
+import { Dimensions, PixelRatio } from 'react-native';
 import {
   Header,
   NameApp,
@@ -27,6 +32,13 @@ export default function MovieGenre({ route, navigation }) {
   const [modalOpen, setModalOpen] = useState(false);
   const [item, setItem] = useState('');
   const [total, setTotal] = useState(0);
+
+  const widthPercentageToDP = (widthPercent) => {
+    const screenWidth = Dimensions.get('window').width;
+    return PixelRatio.roundToNearestPixel(
+      (screenWidth * parseFloat(widthPercent)) / 100
+    );
+  };
 
   const searchMoviesGenre = async () => {
     if (isLoadding) {
@@ -56,11 +68,20 @@ export default function MovieGenre({ route, navigation }) {
             setModalOpen(true);
           }}
         >
-          <MoviePoster
-            source={{
-              uri: 'https://image.tmdb.org/t/p/original' + item.poster_path,
-            }}
-          />
+          <TouchableOpacity
+            accessible={true}
+            accessibilityLabel={
+              'O nome deste filme é: ' +
+              item.original_title +
+              ' e se deseja ver os detalhes do filme, aperte na imagem do filme.'
+            }
+          >
+            <MoviePoster
+              source={{
+                uri: 'https://image.tmdb.org/t/p/original' + item.poster_path,
+              }}
+            />
+          </TouchableOpacity>
         </TouchableHighlight>
       </Movie>
     );
@@ -71,17 +92,29 @@ export default function MovieGenre({ route, navigation }) {
   }, []);
 
   return (
-    <Background>
+    <Background accessible={true}>
       <Header>
-        <BackButton>
-          <Icon
-            name="keyboard-arrow-left"
-            size={40}
-            color="#FFF"
-            onPress={() => navigation.pop()}
-          />
-        </BackButton>
-        <NameApp>Sertão Filmes</NameApp>
+        <TouchableWithoutFeedback
+          hitSlop={{ top: 20, bottom: 20, left: 50, right: 50 }}
+        >
+          <BackButton>
+            <TouchableOpacity
+              accessible={true}
+              accessibilityLabel="Aperte o botão para voltar para a tela anterior."
+            >
+              <Icon
+                name="keyboard-arrow-left"
+                size={widthPercentageToDP('10%')}
+                color="#FFF"
+                onPress={() => navigation.pop()}
+              />
+            </TouchableOpacity>
+          </BackButton>
+        </TouchableWithoutFeedback>
+
+        <TouchableOpacity accessible={true} accessibilityLabel="Sertão Filmes">
+          <NameApp>Sertão Filmes</NameApp>
+        </TouchableOpacity>
       </Header>
 
       <List
@@ -104,15 +137,30 @@ export default function MovieGenre({ route, navigation }) {
         <ScrollView>
           <ModalView>
             <Header>
-              <BackButton>
-                <Icon
-                  name="keyboard-arrow-left"
-                  size={40}
-                  color="#FFF"
-                  onPress={() => setModalOpen(false)}
-                />
-              </BackButton>
-              <NameApp>Sertão Filmes</NameApp>
+              <TouchableWithoutFeedback
+                hitSlop={{ top: 20, bottom: 20, left: 50, right: 50 }}
+              >
+                <BackButton>
+                  <TouchableOpacity
+                    accessible={true}
+                    accessibilityLabel="Aperte o botão para voltar para a tela anterior."
+                  >
+                    <Icon
+                      name="keyboard-arrow-left"
+                      size={widthPercentageToDP('10%')}
+                      color="#FFF"
+                      onPress={() => setModalOpen(false)}
+                    />
+                  </TouchableOpacity>
+                </BackButton>
+              </TouchableWithoutFeedback>
+
+              <TouchableOpacity
+                accessible={true}
+                accessibilityLabel="Sertão Filmes"
+              >
+                <NameApp>Sertão Filmes</NameApp>
+              </TouchableOpacity>
             </Header>
 
             <MoviePosterModal

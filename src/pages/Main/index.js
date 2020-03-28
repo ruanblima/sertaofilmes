@@ -2,10 +2,15 @@ import React, { useState, useEffect } from 'react';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import request from '../../services/api';
 import PropTypes from 'prop-types';
-import { Modal, View } from 'react-native';
+import {
+  Modal,
+  TouchableWithoutFeedback,
+  TouchableOpacity,
+} from 'react-native';
 import { TouchableHighlight, ScrollView } from 'react-native-gesture-handler';
 import { Background } from '../../components/Background/index';
 import DrawerLayout from 'react-native-gesture-handler/DrawerLayout';
+import { Dimensions, PixelRatio } from 'react-native';
 import {
   SearchButton,
   List,
@@ -36,6 +41,13 @@ export default function Main({ navigation }) {
   const [modalOpen, setModalOpen] = useState(false);
   const [item, setItem] = useState('');
   const [genres, setGenres] = useState('');
+
+  const widthPercentageToDP = (widthPercent) => {
+    const screenWidth = Dimensions.get('window').width;
+    return PixelRatio.roundToNearestPixel(
+      (screenWidth * parseFloat(widthPercent)) / 100
+    );
+  };
 
   const searchGenres = async () => {
     const response = await request(`genre/movie/list`, ``, ``, page);
@@ -75,7 +87,11 @@ export default function Main({ navigation }) {
       >
         <ButtonGenre>
           <ButtonGenreIcon>
-            <Icon name="local-movies" size={20} color="#FFF" />
+            <Icon
+              name="local-movies"
+              size={widthPercentageToDP('7.5%')}
+              color="#FFF"
+            />
           </ButtonGenreIcon>
           <NameGenre>{item.name}</NameGenre>
         </ButtonGenre>
@@ -87,7 +103,12 @@ export default function Main({ navigation }) {
     return (
       <>
         <HeaderMenu>
-          <NameSearch>Buscar filmes por gênero</NameSearch>
+          <TouchableOpacity
+            accessible={true}
+            accessibilityLabel="Buscar filmes por gênero"
+          >
+            <NameSearch>Buscar filmes por gênero</NameSearch>
+          </TouchableOpacity>
         </HeaderMenu>
         <List
           numColumns={1}
@@ -108,11 +129,20 @@ export default function Main({ navigation }) {
             setModalOpen(true);
           }}
         >
-          <MoviePoster
-            source={{
-              uri: 'https://image.tmdb.org/t/p/original' + item.poster_path,
-            }}
-          />
+          <TouchableOpacity
+            accessible={true}
+            accessibilityLabel={
+              'O nome deste filme é: ' +
+              item.original_title +
+              ' e se deseja ver os detalhes do filme, aperte na imagem do filme.'
+            }
+          >
+            <MoviePoster
+              source={{
+                uri: 'https://image.tmdb.org/t/p/original' + item.poster_path,
+              }}
+            />
+          </TouchableOpacity>
         </TouchableHighlight>
       </Movie>
     );
@@ -125,21 +155,45 @@ export default function Main({ navigation }) {
 
   return (
     <DrawerLayout
-      drawerWidth={250}
+      drawerWidth={widthPercentageToDP('70%')}
       drawerPosition={DrawerLayout.positions.Left}
       drawerType="front"
       drawerBackgroundColor="#8b0000"
       renderNavigationView={renderDrawer}
     >
-      <Background>
+      <Background accessible={true}>
         <Header>
-          <MenuButton>
-            <Icon name="menu" size={30} color="#FFF" />
-          </MenuButton>
-          <NameApp>Sertão Filmes</NameApp>
-          <SearchButton onPress={() => navigation.push('Search')}>
-            <Icon name="search" size={30} color="#FFF" />
-          </SearchButton>
+          <TouchableWithoutFeedback
+            hitSlop={{ top: 20, bottom: 20, left: 50, right: 50 }}
+          >
+            <MenuButton>
+              <TouchableOpacity
+                accessible={true}
+                accessibilityLabel="Abrir menu"
+              >
+                <Icon name="menu" size={30} color="#FFF" />
+              </TouchableOpacity>
+            </MenuButton>
+          </TouchableWithoutFeedback>
+          <TouchableOpacity
+            accessible={true}
+            accessibilityLabel="Sertão Filmes"
+          >
+            <NameApp>Sertão Filmes</NameApp>
+          </TouchableOpacity>
+
+          <TouchableWithoutFeedback
+            hitSlop={{ top: 20, bottom: 20, left: 50, right: 50 }}
+          >
+            <SearchButton onPress={() => navigation.push('Search')}>
+              <TouchableOpacity
+                accessible={true}
+                accessibilityLabel="Aperte o botão para ir para a página de pesquisar filmes por nome."
+              >
+                <Icon name="search" size={30} color="#FFF" />
+              </TouchableOpacity>
+            </SearchButton>
+          </TouchableWithoutFeedback>
         </Header>
         <List
           numColumns={3}
@@ -161,15 +215,30 @@ export default function Main({ navigation }) {
           <ScrollView>
             <ModalView>
               <Header>
-                <BackButton>
-                  <Icon
-                    name="keyboard-arrow-left"
-                    size={40}
-                    color="#FFF"
-                    onPress={() => setModalOpen(false)}
-                  />
-                </BackButton>
-                <NameApp>Sertão Filmes</NameApp>
+                <TouchableWithoutFeedback
+                  hitSlop={{ top: 20, bottom: 20, left: 50, right: 50 }}
+                >
+                  <BackButton>
+                    <TouchableOpacity
+                      accessible={true}
+                      accessibilityLabel="Aperte o botão para voltar para a tela anterior."
+                    >
+                      <Icon
+                        name="keyboard-arrow-left"
+                        size={widthPercentageToDP('10%')}
+                        color="#FFF"
+                        onPress={() => setModalOpen(false)}
+                      />
+                    </TouchableOpacity>
+                  </BackButton>
+                </TouchableWithoutFeedback>
+
+                <TouchableOpacity
+                  accessible={true}
+                  accessibilityLabel="Sertão Filmes"
+                >
+                  <NameApp>Sertão Filmes</NameApp>
+                </TouchableOpacity>
               </Header>
 
               <MoviePosterModal

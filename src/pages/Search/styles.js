@@ -1,119 +1,135 @@
 import styled from 'styled-components/native';
 import { RectButton } from 'react-native-gesture-handler';
+import { Dimensions, PixelRatio } from 'react-native';
+
+const widthPercentageToDP = (widthPercent) => {
+  const screenWidth = Dimensions.get('window').width;
+  return PixelRatio.roundToNearestPixel(
+    (screenWidth * parseFloat(widthPercent)) / 100
+  );
+};
+
+const heightPercentageToDP = (heightPercent) => {
+  const screenHeight = Dimensions.get('window').height;
+  return PixelRatio.roundToNearestPixel(
+    (screenHeight * parseFloat(heightPercent)) / 100
+  );
+};
 
 export const Header = styled.View`
   flex-direction: row;
-  border-bottom-width: 1px;
-  border: 1px solid #8b0000;
-  height: 50px;
-  border-radius: 6px;
+  border: 0 solid #8b0000;
+  height: ${heightPercentageToDP('5%')}px;
   justify-content: center;
   align-items: center;
 `;
 
 export const NameApp = styled.Text`
-  font-size: 20px;
+  font-size: ${widthPercentageToDP('6%')}px;
   color: #eee;
   font-weight: bold;
-  margin: 0 60px 0px;
+  margin: 0 ${widthPercentageToDP('11%')}px 0px;
 `;
 
 export const BackButton = styled(RectButton)`
   justify-content: center;
   align-items: center;
-  border-radius: 4px;
-  height: 35px;
-  position: absolute;
-  left: 0;
+  height: ${heightPercentageToDP('5%')}px;
+  align-self: flex-start;
 `;
 
 export const Form = styled.View`
   flex-direction: row;
-  padding-bottom: 20px;
-  border-bottom-width: 1px;
+  padding-bottom: ${widthPercentageToDP('3%')}px;
+  border-bottom-width: ${widthPercentageToDP('0.1%')}px;
   border-color: #8b0000;
-  margin-top: 10px;
+  margin-top: ${heightPercentageToDP('2%')}px;
 `;
 
 export const Input = styled.TextInput.attrs({
   placeholderTextColor: '#eee',
 })`
   flex: 1;
-  height: 40px;
-  padding 0 15px;
-  border: 1px solid #eee;
+  height: ${heightPercentageToDP('6%')}px;
+  padding 0 ${widthPercentageToDP('0.1%')}px;
+  border: ${widthPercentageToDP('0.6%')}px solid #eee;
+  border-radius: ${widthPercentageToDP('1%')}px;
 `;
 
 export const SubmitButton = styled(RectButton)`
   justify-content: center;
   align-items: center;
   background: #eee;
-  border-radius: 4px;
-  margin-left: 10px;
-  padding: 0 12px;
-  opacity: ${(props) => (props.loading ? 0.7 : 1)};
+  border-radius: ${widthPercentageToDP('1%')}px;
+  margin-left: ${widthPercentageToDP('2%')}px;
+  padding: 0 ${widthPercentageToDP('3%')}px;
 `;
 
 export const ModalView = styled.View`
   flex: 1;
-  padding: 8px;
+  padding: ${widthPercentageToDP('2%')}px;
   background: #8b0000;
+  align-items: center;
 `;
 
 export const List = styled.FlatList.attrs({
   showVerticalScrollIndicator: false,
 })`
-  margin-top: 10px;
+  margin-top: ${heightPercentageToDP('0.3%')}px;
 `;
 
 export const MoviePoster = styled.Image`
-  width: 110px;
-  height: 160px;
+  width: ${widthPercentageToDP('30%')}px;
+  height: ${heightPercentageToDP('25%')}px;
   background: #eee;
-  border-radius: 4px;
+  border-radius: ${widthPercentageToDP('3%')}px;
 `;
 
 export const Movie = styled.View`
   align-items: center;
-  margin: 0 4px 8px;
+  margin: 0 ${widthPercentageToDP('1.5%')}px ${heightPercentageToDP('1.5%')}px;
 `;
 
 export const NameMovie = styled.Text`
-  font-size: 20px;
+  font-size: ${widthPercentageToDP('5%')}px;
   color: #eee;
   font-weight: bold;
-  margin-top: 4px;
+  margin-top: ${heightPercentageToDP('1%')}px;
   text-align: center;
+  left: ${widthPercentageToDP('1%')}px;
 `;
 
 export const DateMovie = styled.Text.attrs({
   numberOfLines: 1,
 })`
-  font-size: 13px;
+  font-size: ${widthPercentageToDP('4%')}px;
   color: #eee;
   font-weight: bold;
   text-align: center;
 `;
 
 export const MoviePosterModal = styled.Image`
-  width: 100%;
-  margin-top: 5px;
-  height: 370px;
+  width: ${widthPercentageToDP('95%')}px;
+  margin-top: ${heightPercentageToDP('1.5%')}px;
+  height: ${heightPercentageToDP('60%')}px;
   justify-content: center;
   align-items: center;
-  border-radius: 4px;
+  border-radius: ${widthPercentageToDP('3%')}px;
 `;
 
 export const Loadding = styled.ActivityIndicator.attrs({
   size: 'large',
   color: '#fff',
 })`
-  margin-top: 10;
+  margin-top: ${heightPercentageToDP('5%')}px;
 `;
 
 export const DetailsMovie = styled.Text`
-  font-size: 12px;
+  font-size: ${widthPercentageToDP('4%')}px;
   color: #eee;
   font-weight: bold;
-  margin-top: 2px;
+  margin-top: ${heightPercentageToDP('0.7%')}px;
+  position: relative;
+  left: ${widthPercentageToDP('1%')}px;
+  align-self: flex-start;
 `;
