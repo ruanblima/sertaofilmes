@@ -20,7 +20,6 @@ import {
   NameApp,
   DetailsMovie,
   DateMovie,
-  Loadding,
   ModalView,
   MoviePosterModal,
   List,

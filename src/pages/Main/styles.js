@@ -28,7 +28,8 @@ export const NameApp = styled.Text`
   font-size: ${widthPercentageToDP('6%')}px;
   color: #eee;
   font-weight: bold;
-  margin: 0 ${widthPercentageToDP('11%')}px 0px;
+  left: ${widthPercentageToDP('10%')}px;
+  margin: 0 ${widthPercentageToDP('21%')}px 0px;
 `;
 
 export const SearchButton = styled(RectButton)`

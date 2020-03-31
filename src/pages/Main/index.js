@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import request from '../../services/api';
-import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   addMoviesRecent,
@@ -47,8 +46,8 @@ export default function Main({ navigation }) {
   const [item, setItem] = useState('');
   const [genres, setGenres] = useState('');
   const dispatch = useDispatch();
-  const openMenu = useRef(null);
 
+  //Pegando a largura do celular
   const widthPercentageToDP = (widthPercent) => {
     const screenWidth = Dimensions.get('window').width;
     return PixelRatio.roundToNearestPixel(
@@ -56,6 +55,7 @@ export default function Main({ navigation }) {
     );
   };
 
+  //Buscando todos os gênerso da API
   const searchGenres = async () => {
     const response = await request(`genre/movie/list`, ``, ``, page);
     setGenres(response);
@@ -65,16 +65,21 @@ export default function Main({ navigation }) {
     if (isLoadding) {
       return;
     }
+    //Verificação, para saber se foram buscados todos os filmes, caso tenha buscado, ele não faz mais a requisição.
     if (total > 0 && moviesRecent.length === total) {
       return;
     }
+    //Se a página buscada já estiver no redux, ele não faz a busca a api, e incrementa a page para que possa, sempre fazer essa verificação.
     if (pageRedux >= page) {
       setPage(page++);
       return;
     }
     setIsLoadding(true);
+    //pegar a data atual
     var date = new Date().getDate();
+    //pegar o ano atual
     var year = new Date().getFullYear();
+    //Buscar filmes recentes;
     const response = await request(
       `discover/movie`,
       ``,
@@ -82,15 +87,18 @@ export default function Main({ navigation }) {
       page
     );
 
+    //Chamando as ações do redux, para armazenar os filmes, e até qual page foi buscada;
     dispatch(
       addMoviesRecent(moviesRecent, response.results),
       incrementPage(page)
     );
     setPage(page + 1);
+    //Inserindo a quantidade total de filmes
     setTotal(response.total_results);
     setIsLoadding(false);
   };
 
+  //Listando todos os gêneros
   const listGenre = ({ item }) => {
     return (
       <TouchableHighlight
@@ -114,6 +122,7 @@ export default function Main({ navigation }) {
     );
   };
 
+  //Renderizando o menu
   const renderDrawer = () => {
     return (
       <>
@@ -135,6 +144,7 @@ export default function Main({ navigation }) {
     );
   };
 
+  //Lista de filmes recentes
   const movieListRecent = ({ item }) => {
     return (
       <Movie>
@@ -178,18 +188,6 @@ export default function Main({ navigation }) {
     >
       <Background accessible={true}>
         <Header>
-          <TouchableWithoutFeedback
-            hitSlop={{ top: 20, bottom: 20, left: 50, right: 50 }}
-          >
-            <MenuButton onPrees={() => renderDrawer()}>
-              <TouchableOpacity
-                accessible={true}
-                accessibilityLabel="Abrir menu"
-              >
-                <Icon name="menu" size={30} color="#FFF" />
-              </TouchableOpacity>
-            </MenuButton>
-          </TouchableWithoutFeedback>
           <TouchableOpacity
             accessible={true}
             accessibilityLabel="Sertão Filmes"

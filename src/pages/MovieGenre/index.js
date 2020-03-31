@@ -25,6 +25,7 @@ import {
 } from './styles';
 
 export default function MovieGenre({ route, navigation }) {
+  //Pegando o id do gênero passado por parametro
   const { itemId } = route.params;
   const [movies, setMovies] = useState([]);
   const [isLoadding, setIsLoadding] = useState(false);
@@ -33,6 +34,7 @@ export default function MovieGenre({ route, navigation }) {
   const [item, setItem] = useState('');
   const [total, setTotal] = useState(0);
 
+  //Pegando a largura do celular
   const widthPercentageToDP = (widthPercent) => {
     const screenWidth = Dimensions.get('window').width;
     return PixelRatio.roundToNearestPixel(
@@ -40,6 +42,7 @@ export default function MovieGenre({ route, navigation }) {
     );
   };
 
+  //Buscar filmes por gênero
   const searchMoviesGenre = async () => {
     if (isLoadding) {
       return;
@@ -54,6 +57,7 @@ export default function MovieGenre({ route, navigation }) {
       `&with_genres=${itemId}&include_adult=false&include_video=false`,
       page
     );
+    //Juntando os arrays
     setMovies([...movies, ...response.results]);
     setPage(page + 1);
     setTotal(response.total_results);
