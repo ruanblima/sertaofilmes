@@ -1,7 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import request from '../../services/api';
 import PropTypes from 'prop-types';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  addMoviesRecent,
+  incrementPage,
+} from '../../store/modules/moviesRecent/actions';
 import {
   Modal,
   TouchableWithoutFeedback,
@@ -18,7 +23,6 @@ import {
   Movie,
   NameMovie,
   MenuButton,
-  Loadding,
   ModalView,
   MoviePosterModal,
   NameApp,
@@ -34,13 +38,16 @@ import {
 } from './styles';
 
 export default function Main({ navigation }) {
-  const [moviesRecent, setMoviesRecent] = useState([]);
+  const moviesRecent = useSelector((state) => state.moviesRecent.results);
+  const pageRedux = useSelector((state) => state.moviesRecent.page);
   const [total, setTotal] = useState(0);
   const [isLoadding, setIsLoadding] = useState(false);
   const [page, setPage] = useState(1);
   const [modalOpen, setModalOpen] = useState(false);
   const [item, setItem] = useState('');
   const [genres, setGenres] = useState('');
+  const dispatch = useDispatch();
+  const openMenu = useRef(null);
 
   const widthPercentageToDP = (widthPercent) => {
     const screenWidth = Dimensions.get('window').width;
@@ -61,6 +68,10 @@ export default function Main({ navigation }) {
     if (total > 0 && moviesRecent.length === total) {
       return;
     }
+    if (pageRedux >= page) {
+      setPage(page++);
+      return;
+    }
     setIsLoadding(true);
     var date = new Date().getDate();
     var year = new Date().getFullYear();
@@ -70,7 +81,11 @@ export default function Main({ navigation }) {
       `&primary_release_year=${year}&primary_release_date.gte=${date}&include_adult=false&include_video=false`,
       page
     );
-    setMoviesRecent([...moviesRecent, ...response.results]);
+
+    dispatch(
+      addMoviesRecent(moviesRecent, response.results),
+      incrementPage(page)
+    );
     setPage(page + 1);
     setTotal(response.total_results);
     setIsLoadding(false);
@@ -166,7 +181,7 @@ export default function Main({ navigation }) {
           <TouchableWithoutFeedback
             hitSlop={{ top: 20, bottom: 20, left: 50, right: 50 }}
           >
-            <MenuButton>
+            <MenuButton onPrees={() => renderDrawer()}>
               <TouchableOpacity
                 accessible={true}
                 accessibilityLabel="Abrir menu"
