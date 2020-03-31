@@ -34,6 +34,7 @@ import {
   HeaderMenu,
   NameSearch,
   ButtonGenreIcon,
+  NameAppModal,
 } from './styles';
 
 export default function Main({ navigation }) {
@@ -250,7 +251,7 @@ export default function Main({ navigation }) {
                   accessible={true}
                   accessibilityLabel="Sertão Filmes"
                 >
-                  <NameApp>Sertão Filmes</NameApp>
+                  <NameAppModal>Sertão Filmes</NameAppModal>
                 </TouchableOpacity>
               </Header>
 

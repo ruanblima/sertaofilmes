@@ -62,6 +62,13 @@ export const ModalView = styled.View`
   align-items: center;
 `;
 
+export const NameAppModal = styled.Text`
+  font-size: ${widthPercentageToDP('6%')}px;
+  color: #eee;
+  font-weight: bold;
+  margin: 0 ${widthPercentageToDP('21%')}px 0px;
+`;
+
 export const List = styled.FlatList.attrs({
   showVerticalScrollIndicator: false,
 })`
