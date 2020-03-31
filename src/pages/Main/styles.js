@@ -2,6 +2,7 @@ import styled from 'styled-components/native';
 import { RectButton } from 'react-native-gesture-handler';
 import { Dimensions, PixelRatio } from 'react-native';
 
+//Pegando a largura do dispositivo
 const widthPercentageToDP = (widthPercent) => {
   const screenWidth = Dimensions.get('window').width;
   return PixelRatio.roundToNearestPixel(
@@ -9,6 +10,7 @@ const widthPercentageToDP = (widthPercent) => {
   );
 };
 
+//Pegando a altura do dispositivo
 const heightPercentageToDP = (heightPercent) => {
   const screenHeight = Dimensions.get('window').height;
   return PixelRatio.roundToNearestPixel(
